@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { GRID_HEIGHT, GRID_WIDTH, P_ALIVE } from '@/app/variable'
-
-interface Ceil {
-  row: number
-  col: number
-  isAlive: boolean
-}
+import type { Ceil } from '@/app/types'
 
 const ceils = ref<Ceil[][]>(gene())
 
