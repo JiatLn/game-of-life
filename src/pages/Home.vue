@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { GRID_HEIGHT, GRID_WIDTH, P_ALIVE } from '@/app/variable'
 import type { Ceil } from '@/app/types'
+import { updateState } from '@/app/alg'
 
 const ceils = ref<Ceil[][]>(gene())
 
@@ -17,7 +18,7 @@ function animate() {
   requestAnimationFrame(() => {
     frame++
     if (frame === 30) {
-      ceils.value = gene()
+      ceils.value = updateState(ceils.value)
       frame = 0
     }
     animate()
