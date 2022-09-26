@@ -48,3 +48,14 @@ export function getBoundingCeils(grids: Ceil[][], ceil: Ceil) {
   }
   return ceils
 }
+
+export function getAliveNum(grids: Ceil[][]) {
+  let aliveNum = 0
+  for (const row of grids) {
+    for (const ceil of row) {
+      if (ceil.isAlive)
+        aliveNum++
+    }
+  }
+  return aliveNum
+}
