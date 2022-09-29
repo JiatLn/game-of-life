@@ -31,6 +31,13 @@ function animate() {
 }
 animate()
 
+function onRestart() {
+  ceils.value = gene()
+  progenyNum.value = 0
+  aliveNum.value = 0
+  isPause.value = false
+}
+
 function toGithub() {
   window.open('https://github.com/JiatLn/game-of-life', '_blank')
 }
@@ -50,11 +57,17 @@ function toGithub() {
         Alive: <span font="bold" text="green">{{ aliveNum }}</span>
       </div>
     </div>
-    <button btn mb-4 flex="c gap-4px" @click="isPause = !isPause">
-      <div v-show="!isPause" i-ant-design:pause-circle-twotone />
-      <div v-show="isPause" i-ant-design:play-circle-twotone />
-      <span>{{ !isPause ? 'Pause' : 'Play!' }}</span>
-    </button>
+    <div mb-4 flex="c gap-20px">
+      <button btn flex="c gap-4px" @click="isPause = !isPause">
+        <div v-show="!isPause" i-ant-design:pause-circle-twotone />
+        <div v-show="isPause" i-ant-design:play-circle-twotone />
+        <span>{{ !isPause ? 'Pause' : 'Play !' }}</span>
+      </button>
+      <button btn flex="c gap-4px" @click="onRestart">
+        <div i-iconoir:restart />
+        <span>Restart</span>
+      </button>
+    </div>
     <div border="~ gray">
       <div v-for="(row, idx) in ceils" :key="idx" flex="~">
         <div v-for="{ col, isAlive } in row" :key="col" w-14px h-14px flex="c">
