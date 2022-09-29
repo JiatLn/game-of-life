@@ -1,3 +1,4 @@
+import { GRID_HEIGHT, GRID_WIDTH, P_ALIVE } from '@/app/variable'
 import type { Ceil } from '@/app/types'
 
 export function updateState(grids: Ceil[][]) {
@@ -58,4 +59,12 @@ export function getAliveNum(grids: Ceil[][]) {
     }
   }
   return aliveNum
+}
+
+export function gene(): Ceil[][] {
+  return Array.from({ length: GRID_HEIGHT }, (_, row) => Array.from({ length: GRID_WIDTH }, (_, col) => ({
+    isAlive: Math.random() < P_ALIVE,
+    row,
+    col,
+  })))
 }

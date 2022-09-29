@@ -1,42 +1,11 @@
 <script setup lang="ts">
-import { GRID_HEIGHT, GRID_WIDTH, P_ALIVE } from '@/app/variable'
-import type { Ceil } from '@/app/types'
-import { getAliveNum, updateState } from '@/app/alg'
+import { storeToRefs } from 'pinia'
+import { useCeilStore } from '@/store'
 
-const ceils = ref<Ceil[][]>(gene())
+const ceilStore = useCeilStore()
+const { ceils, progenyNum, aliveNum, isPause } = storeToRefs(ceilStore)
 
-function gene(): Ceil[][] {
-  return Array.from({ length: GRID_HEIGHT }, (_, row) => Array.from({ length: GRID_WIDTH }, (_, col) => ({
-    isAlive: Math.random() < P_ALIVE,
-    row,
-    col,
-  })))
-}
-
-const progenyNum = ref<number>(0)
-const aliveNum = ref<number>(0)
-const isPause = ref<boolean>(false)
-let frame = 0
-function animate() {
-  requestAnimationFrame(() => {
-    frame++
-    if (!isPause.value && frame >= 30) {
-      ceils.value = updateState(ceils.value)
-      aliveNum.value = getAliveNum(ceils.value)
-      progenyNum.value++
-      frame = 0
-    }
-    animate()
-  })
-}
-animate()
-
-function onRestart() {
-  ceils.value = gene()
-  progenyNum.value = 0
-  aliveNum.value = 0
-  isPause.value = false
-}
+ceilStore.animate()
 
 function toGithub() {
   window.open('https://github.com/JiatLn/game-of-life', '_blank')
@@ -58,12 +27,12 @@ function toGithub() {
       </div>
     </div>
     <div mb-4 flex="c gap-20px">
-      <button btn flex="c gap-4px" @click="isPause = !isPause">
+      <button btn flex="c gap-4px" @click="ceilStore.togglePlay">
         <div v-show="!isPause" i-ant-design:pause-circle-twotone />
         <div v-show="isPause" i-ant-design:play-circle-twotone />
         <span>{{ !isPause ? 'Pause' : 'Play !' }}</span>
       </button>
-      <button btn flex="c gap-4px" @click="onRestart">
+      <button btn flex="c gap-4px" @click="ceilStore.onRestart">
         <div i-iconoir:restart />
         <span>Restart</span>
       </button>
